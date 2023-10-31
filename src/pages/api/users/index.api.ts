@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { prisma } from "@/lib/prisma";
+import { setCookie } from "nookies";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -29,6 +30,11 @@ export default async function handler(
       name,
       username,
     },
+  });
+
+  setCookie({ res }, "@ignitecall:userId", user.id, {
+    maxAge: 60 * 60 * 24 * 7, // 7 dias
+    path: "/",
   });
 
   return res.status(201).json(user);
