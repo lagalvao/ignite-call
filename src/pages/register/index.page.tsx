@@ -36,7 +36,7 @@ export default function Register() {
   } = useForm<RegisterFormData>({
     values: {
       name: "",
-      username: String(router.query.username) || "",
+      username: router?.query?.username ? String(router?.query?.username) : "",
     },
     resolver: zodResolver(registerFormSchema),
   });
@@ -49,6 +49,8 @@ export default function Register() {
         name,
         username,
       });
+
+      await router.push("/register/connect-calendar");
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         alert(err.response.data.message);
